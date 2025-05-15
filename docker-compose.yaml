@@ -1,0 +1,9 @@
+service:
+  tomcat:
+    build:
+      context: ./web/
+    container_name: tomcat_c1
+    volumes:
+      - volume-db:/var/
+    POSTGRES_PASSWORD:
+
