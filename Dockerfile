@@ -1,4 +1,4 @@
-FROM maven AS builder
+FROM maven:9 AS builder
 WORKDIR /app
 COPY . .
 RUN mvn install package

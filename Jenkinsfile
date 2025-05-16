@@ -5,7 +5,7 @@ pipeline {
         REGISTRY = 'marcbassi'
         IMAGE = 'apphelloworld'
         TAG = "${env.BUILD_ID}"
-        PORT = 8011
+        PORT = 8012
     }
 
     stages {
@@ -16,8 +16,7 @@ pipeline {
         }
         stage('Build image') {
             steps {
-                script {
-                    
+                script {                    
                     img = docker.build("${REGISTRY}/${IMAGE}:${TAG}", ".")
                 }
             }
@@ -37,20 +36,10 @@ pipeline {
         stage('Run container') {
             steps {
                 script {
-                    container = img.run("-d -p ${PORT}:8080")
-                    echo "Conteneur lancé : http://172.16.15.13:${PORT}/hello"
+                    container = img.run("--name hellowrold_${BUILD_ID} -p ${PORT}:8080")
+                    echo "Conteneur lancé : http://172.16.150.20:${PORT}/hello"
                 }
             }
-        } 
-        //stage('Run clean') {
-        //    steps {
-        //        script {
-        //            def containerName = "helloworld-${env.BUILD_ID}"
-        //            sh "docker rm -f ${containerName} "
-        //            // sh "docker run -d --name ${containerName} -p ${PORT}:8080 ${REGISTRY}/${IMAGE}:${TAG}"                    
-        //            echo "Conteneur lancé : http://172.16.15.13:${PORT}/hello"
-        //        }
-        //    }
-        //}               
+        }             
     }
 }
