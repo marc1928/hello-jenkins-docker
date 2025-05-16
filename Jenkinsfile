@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        REGISTRY = 'docker.io/marcbassi'
+        REGISTRY = 'marcbassi'
         IMAGE = 'apphelloworld'
         TAG = "${env.BUILD_ID}"
     }
