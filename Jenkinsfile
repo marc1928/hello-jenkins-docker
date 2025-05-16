@@ -5,6 +5,7 @@ pipeline {
         REGISTRY = 'marcbassi'
         IMAGE = 'apphelloworld'
         TAG = "${env.BUILD_ID}"
+        PORT = 8010
     }
 
     stages {
@@ -26,12 +27,29 @@ pipeline {
                 script {
                     
                     withDockerRegistry(credentialsId: 'registry_docker', url: 'https://index.docker.io/v1/') {
-                    
                         //img.push('${TAG}')
                         img.push("latest")
                     }
                 }
             }
         }
+
+        stage('Run container') {
+            steps {
+                script {
+                    container = img.run("-d -p ${PORT}:8080")
+                }
+            }
+        } 
+        stage('Run container') {
+            steps {
+                script {
+                    def containerName = "helloworld-${env.BUILD_ID}"
+                    sh "docker rm -f ${containerName} "
+                    sh "docker run -d --name ${containerName} -p ${PORT}:8080 ${REGISTRY}/${IMAGE}:${TAG}"                    
+                    echo "Conteneur lancé : http://172.16.15.13:${PORT}/hello"
+                }
+            }
+        }               
     }
 }
