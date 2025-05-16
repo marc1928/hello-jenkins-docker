@@ -5,5 +5,4 @@ service:
     container_name: tomcat_c1
     volumes:
       - volume-db:/var/
-    POSTGRES_PASSWORD:
-
+    POSTGRES_PASSWORD

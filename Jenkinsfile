@@ -1,26 +1,35 @@
 pipeline {
     agent any
 
+    environment {
+        REGISTRY = 'docker.io/marcbassi'
+        IMAGE = 'apphelloworld'
+        TAG = "${env.BUILD_ID}"
+    }
+
     stages {
         stage('Clone') {
             steps {
-                echo 'Clone Step'
-                //git credentialsId: 'id_gitlab', url: 'https://repo-dev.efi-academy.com/marc/myapp-j2e-g15.git'
                 checkout scm
             }
         }
-        stage('Build') {
+        stage('Build image') {
             steps {
-                echo 'Build Step'
-                withMaven(globalMavenSettingsConfig: '', jdk: 'java', maven: 'maven', mavenSettingsConfig: '', traceability: true) {
-                sh 'mvn clean install package'
+                script {
+                    
+                    def img = docker.build("${REGISTRY}/${IMAGE}:${TAG}", ".")
                 }
             }
         }
-        stage('Deploy') {
+        stage('Push') {
             steps {
-                echo 'Hello World'
-                deploy adapters: [tomcat9(credentialsId: 'id_tomcat', path: '', url: 'http://172.16.15.13:8042/')], contextPath: null, war: '**/*.war'
+                script {
+                    
+                    withDockerRegistry(credentialsId: 'registry_docker', url: 'https://index.docker.io/v1/') {
+                    
+                        img.push('${TAG}')
+                    }
+                }
             }
         }
     }
