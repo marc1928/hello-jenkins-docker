@@ -27,7 +27,7 @@ pipeline {
                     
                     withDockerRegistry(credentialsId: 'registry_docker', url: 'https://index.docker.io/v1/') {
                     
-                        img.push('${TAG}')
+                        //img.push('${TAG}')
                         img.push("latest")
                     }
                 }
