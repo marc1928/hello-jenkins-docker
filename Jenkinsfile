@@ -5,7 +5,7 @@ pipeline {
         REGISTRY = 'marcbassi'
         IMAGE = 'apphelloworld'
         TAG = "${env.BUILD_ID}"
-        PORT = 8010
+        PORT = 8011
     }
 
     stages {
