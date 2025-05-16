@@ -41,15 +41,15 @@ pipeline {
                 }
             }
         } 
-        stage('Run container') {
-            steps {
-                script {
-                    def containerName = "helloworld-${env.BUILD_ID}"
-                    sh "docker rm -f ${containerName} "
-                    sh "docker run -d --name ${containerName} -p ${PORT}:8080 ${REGISTRY}/${IMAGE}:${TAG}"                    
-                    echo "Conteneur lancé : http://172.16.15.13:${PORT}/hello"
-                }
-            }
-        }               
+        //stage('Run clean') {
+        //    steps {
+        //        script {
+        //            def containerName = "helloworld-${env.BUILD_ID}"
+        //            sh "docker rm -f ${containerName} "
+        //            // sh "docker run -d --name ${containerName} -p ${PORT}:8080 ${REGISTRY}/${IMAGE}:${TAG}"                    
+        //            echo "Conteneur lancé : http://172.16.15.13:${PORT}/hello"
+        //        }
+        //    }
+        //}               
     }
 }
