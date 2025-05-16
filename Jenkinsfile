@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     
-                    def img = docker.build("${REGISTRY}/${IMAGE}:${TAG}", ".")
+                    img = docker.build("${REGISTRY}/${IMAGE}:${TAG}", ".")
                 }
             }
         }
