@@ -38,6 +38,7 @@ pipeline {
             steps {
                 script {
                     container = img.run("-d -p ${PORT}:8080")
+                    echo "Conteneur lancé : http://172.16.15.13:${PORT}/hello"
                 }
             }
         } 
